@@ -20,16 +20,17 @@ def bitmap2float(x: numpy.ndarray):
 def gs_algo(target):
     d = bitmap2float(target) + 1j*0
     # d = bitmap2float(target) + 1j*random.random()
-    a = numpy.fft.ifft2(d)
+    # a = numpy.fft.ifft2(d)
+    a = pyfftw.interfaces.numpy_fft.ifft2(d)
 
     # TODO switch matrix quadrants
 
     for i in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
         print(f'pass {i}')
         b = 1 * numpy.exp(1j * a.imag)
-        c = numpy.fft.fft2(b)
+        c = pyfftw.interfaces.numpy_fft.fft2(b)
         d = target.real * numpy.exp(1j * c.imag)
-        a = numpy.fft.ifft2(d)
+        a = pyfftw.interfaces.numpy_fft.ifft2(d)
     return a.imag
 
 
@@ -42,7 +43,7 @@ def main(argv):
 
     phase = gs_algo(in_arr)
 
-    out_img = Image.fromarray(float2bitmap(numpy.fft.fft2(phase).imag))   # retrieve image
+    out_img = Image.fromarray(float2bitmap(pyfftw.interfaces.numpy_fft.fft2(phase).imag))   # retrieve image
     # out_img = Image.fromarray(float2bitmap(phase))
     out_img.show()
 
