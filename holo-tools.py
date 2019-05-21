@@ -20,7 +20,6 @@ def bitmap2float(x: numpy.ndarray):
 def gs_algo(target):
     d = bitmap2float(target) + 1j*0
     # d = bitmap2float(target) + 1j*random.random()
-    # a = numpy.fft.ifft2(d)
     a = pyfftw.interfaces.numpy_fft.ifft2(d)
 
     # TODO switch matrix quadrants
